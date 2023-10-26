@@ -25,8 +25,8 @@ HANDLE hEvent = NULL;
 
 // https://github.com/tronkko/dirent
 /* This is your true main function */
-static int
-_main(int argc, char* argv[])
+int
+main(int argc, char* argv[])
 {
     //创建Event用于等待OCR任务返回
     hEvent = CreateEventA(NULL, FALSE, FALSE, NULL);
@@ -108,7 +108,7 @@ _main(int argc, char* argv[])
 /* Convert arguments to UTF-8 */
 #ifdef _MSC_VER
 int
-wmain(int argc, wchar_t* argv[])
+wmain2(int argc, wchar_t* argv[])
 {
     /* Select UTF-8 locale */
     setlocale(LC_ALL, ".utf8");
@@ -140,7 +140,7 @@ wmain(int argc, wchar_t* argv[])
     }
 
     /* Pass UTF-8 converted arguments to the main program */
-    int errorcode = _main(argc, mbargv);
+    int errorcode = 0; // _main(argc, mbargv);
 
     /* Release UTF-8 arguments */
     for (int i = 0; i < argc; i++) {
@@ -158,6 +158,79 @@ main(int argc, char* argv[])
     return _main(argc, argv);
 }
 #endif
+
+//以下为char与wchar的转换
+std::wstring Utf8ToUnicode(std::string utf8_str)
+{
+    if (utf8_str.empty())
+        return std::wstring();
+
+    const auto size_needed = MultiByteToWideChar(CP_UTF8, 0, &utf8_str.at(0), (int)utf8_str.size(), nullptr, 0);
+    if (size_needed <= 0)
+    {
+        throw std::runtime_error("MultiByteToWideChar() failed: " + std::to_string(size_needed));
+    }
+
+    std::wstring result(size_needed, 0);
+    MultiByteToWideChar(CP_UTF8, 0, &utf8_str.at(0), (int)utf8_str.size(), &result.at(0), size_needed);
+    return result;
+}
+
+//以下为char与wchar的转换
+std::wstring ANSIToUnicode(std::string ansi_str)
+{
+    if (ansi_str.empty())
+        return std::wstring();
+
+    const auto size_needed = MultiByteToWideChar(CP_ACP, 0, &ansi_str.at(0), (int)ansi_str.size(), nullptr, 0);
+    if (size_needed <= 0)
+    {
+        throw std::runtime_error("MultiByteToWideChar() failed: " + std::to_string(size_needed));
+    }
+
+    std::wstring result(size_needed, 0);
+    MultiByteToWideChar(CP_ACP, 0, &ansi_str.at(0), (int)ansi_str.size(), &result.at(0), size_needed);
+    return result;
+}
+
+std::string UnicodeToANSI(std::wstring utf16_str)
+{
+    if (utf16_str.empty())
+        return std::string();
+
+    const auto size_needed = WideCharToMultiByte(CP_ACP, 0, &utf16_str.at(0), (int)utf16_str.size(), nullptr, 0, nullptr, nullptr);
+    if (size_needed <= 0)
+    {
+        throw std::runtime_error("WideCharToMultiByte() failed: " + std::to_string(size_needed));
+    }
+
+    std::string result(size_needed, 0);
+    WideCharToMultiByte(CP_ACP, 0, &utf16_str.at(0), (int)utf16_str.size(), &result.at(0), size_needed, nullptr, nullptr);
+    return result;
+}
+
+std::string UnicodeToUtf8(std::wstring utf16_str)
+{
+    if (utf16_str.empty())
+        return std::string();
+
+    const auto size_needed = WideCharToMultiByte(CP_UTF8, 0, &utf16_str.at(0), (int)utf16_str.size(), nullptr, 0, nullptr, nullptr);
+    if (size_needed <= 0)
+    {
+        throw std::runtime_error("WideCharToMultiByte() failed: " + std::to_string(size_needed));
+    }
+
+    std::string result(size_needed, 0);
+    WideCharToMultiByte(CP_UTF8, 0, &utf16_str.at(0), (int)utf16_str.size(), &result.at(0), size_needed, nullptr, nullptr);
+    return result;
+}
+
+std::string Utf8ToANSI(std::string utf8_str) {
+    return UnicodeToANSI(Utf8ToUnicode(utf8_str));
+}
+std::string ANSIToUtf8(std::string ansi_str) {
+    return UnicodeToUtf8(ANSIToUnicode(ansi_str));
+}
 
 void OnOcrReadPush(const char* pic_path, void* ocr_response_serialize, int serialize_size)
 {
@@ -185,7 +258,7 @@ void OnOcrReadPush(const char* pic_path, void* ocr_response_serialize, int seria
             {
                 printf("%02X ", (BYTE)utf8str[j]);
             }
-            std::cout << " (" << utf8str << ")]\n";
+            std::cout << " (" << Utf8ToANSI(utf8str) << ")]\n";
         }
         puts("]");
 
