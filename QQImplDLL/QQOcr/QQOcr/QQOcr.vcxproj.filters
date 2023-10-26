@@ -46,8 +46,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <MASM Include="QQOcrAsm.asm">
+    <None Include="QQOcrAsm.asm">
       <Filter>源文件\OCR</Filter>
-    </MASM>
+    </None>
   </ItemGroup>
 </Project>
