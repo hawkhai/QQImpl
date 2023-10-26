@@ -1,1 +1,3 @@
 C:\Users\ADMIN\AppData\Roaming\Tencent\WeChat\XPlugin\Plugins\WeChatOCR\7057\extracted\WeChatOCR.exe
+C:\Users\hawkhai\AppData\Roaming\Tencent\WeChat\XPlugin\Plugins\WeChatOCR\7057\extracted\WeChatOCR.exe
+C:\Program Files (x86)\Tencent\WeChat\[3.9.7.29]\mmmojo_64.dll
