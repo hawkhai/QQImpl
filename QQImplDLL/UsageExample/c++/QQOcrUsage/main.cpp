@@ -21,6 +21,12 @@ int check_path_info(std::string path)
         return 2;
 }
 
+std::string myfullpath(std::string fpath) {
+    char fullpath[_MAX_PATH];
+    _fullpath(fullpath, fpath.c_str(), _MAX_PATH);
+    return fullpath;
+}
+
 HANDLE hEvent = NULL;
 
 // https://github.com/tronkko/dirent
@@ -40,11 +46,17 @@ main(int argc, char* argv[])
 
     std::cout << "[*] Enter WeChatOCR.exe Path:\n[>] ";
     //std::getline(std::cin, ocr_path);
-    ocr_path = "C:\\Users\\ADMIN\\AppData\\Roaming\\Tencent\\WeChat\\XPlugin\\Plugins\\WeChatOCR\\7057\\extracted\\WeChatOCR.exe";
+    ocr_path = "..\\..\\extracted\\WeChatOCR.exe";
+    if (check_path_info(ocr_path) != 2) {
+        ocr_path = "..\\..\\..\\QQOcr\\bin\\extracted\\WeChatOCR.exe";
+    }
 
     std::cout << "[*] Enter mmmojo(_64).dll Path:\n[>] ";
     //std::getline(std::cin, usr_lib_path);
-    usr_lib_path = "D:\\Program Files (x86)\\Tencent\\WeChat\\[3.9.7.29]\\"; // mmmojo_64.dll
+    usr_lib_path = "..\\..\\"; // mmmojo_64.dll
+    if (check_path_info(usr_lib_path) != 1) {
+        usr_lib_path = "..\\..\\..\\QQOcr\\bin\\"; // mmmojo_64.dll
+    }
 
     std::cout << "[*] Enter Pic Path to OCR (Default \'.\\test.png\'):\n[>] ";
     //std::getline(std::cin, pic_path);
@@ -62,6 +74,10 @@ main(int argc, char* argv[])
         std::cout << "[!] OCR Usr Lib Path is not exist!\n";
         return 0;
     }
+
+    ocr_path = myfullpath(ocr_path);
+    usr_lib_path = myfullpath(usr_lib_path);
+    pic_path = myfullpath(pic_path);
 
     //初始化OCR Manager
     qqocr::InitManager();
