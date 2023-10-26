@@ -54,14 +54,19 @@ main(int argc, char* argv[])
     std::cout << "[*] Enter mmmojo(_64).dll Path:\n[>] ";
     //std::getline(std::cin, usr_lib_path);
     usr_lib_path = "..\\..\\"; // mmmojo_64.dll
-    if (check_path_info(usr_lib_path) != 1) {
+    if (check_path_info(usr_lib_path + "mmmojo_64.dll") != 2) {
         usr_lib_path = "..\\..\\..\\QQOcr\\bin\\"; // mmmojo_64.dll
     }
 
-    std::cout << "[*] Enter Pic Path to OCR (Default \'.\\test.png\'):\n[>] ";
+    std::cout << "[*] Enter Pic Path to OCR (Default \'.\\test.jpg\'):\n[>] ";
     //std::getline(std::cin, pic_path);
     pic_path = "E:\\kSource\\pythonx\\decode\\wechatocr\\QQImpl\\test.jpg";
-    if (pic_path.empty()) pic_path = ".\\test.png";
+    if (pic_path.empty() || check_path_info(pic_path) != 2) 
+        pic_path = ".\\test.jpg";
+    if (pic_path.empty() || check_path_info(pic_path) != 2) 
+        pic_path = "..\\..\\test.jpg";
+    if (pic_path.empty() || check_path_info(pic_path) != 2) 
+        pic_path = "..\\..\\..\\QQOcr\\bin\\test.jpg";
 
     if (check_path_info(ocr_path) != 2)
     {
