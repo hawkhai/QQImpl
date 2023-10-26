@@ -173,9 +173,10 @@ void OnOcrReadPush(const char* pic_path, void* ocr_response_serialize, int seria
     if (ocr_response.type() == 0)
     {
         std::cout << "[*] OcrResult:\n[\n";
-        for (int i = 0; i < ocr_response.ocr_result().single_result_size(); i++)
+        auto result = ocr_response.ocr_result();
+        for (int i = 0; i < result.single_result_size(); i++)
         {
-            ocr_protobuf::OcrResponse::OcrResult::SingleResult single_result = ocr_response.ocr_result().single_result(i);
+            ocr_protobuf::OcrResponse::OcrResult::SingleResult single_result = result.single_result(i);
             sprintf(out_buf, "\tRECT:[lx:%f, ly:%f, rx:%f, ry:%f]\n", single_result.lx(), single_result.ly(), single_result.rx(), single_result.ry());
             std::cout << out_buf;
             std::string utf8str = single_result.single_str_utf8();
