@@ -23,37 +23,43 @@ int check_path_info(std::string path)
 
 HANDLE hEvent = NULL;
 
-int main()
+// https://github.com/tronkko/dirent
+/* This is your true main function */
+static int
+_main(int argc, char* argv[])
 {
     //创建Event用于等待OCR任务返回
     hEvent = CreateEventA(NULL, FALSE, FALSE, NULL);
     if (hEvent == NULL)
     {
-        std::cout << "\033[31m[!] CreateEventA Err: " << GetLastError() << "\033[0m\n";
+        std::cout << "[!] CreateEventA Err: " << GetLastError() << "\n";
         return 1;
     }
 
     std::string ocr_path, usr_lib_path, pic_path;
 
-    std::cout << "\033[34m[*]\033[0m Enter WeChatOCR.exe Path:\n\033[34m[>]\033[0m ";
-    std::getline(std::cin, ocr_path);
+    std::cout << "[*] Enter WeChatOCR.exe Path:\n[>] ";
+    //std::getline(std::cin, ocr_path);
+    ocr_path = "C:\\Users\\ADMIN\\AppData\\Roaming\\Tencent\\WeChat\\XPlugin\\Plugins\\WeChatOCR\\7057\\extracted\\WeChatOCR.exe";
 
-    std::cout << "\033[34m[*]\033[0m Enter mmmojo(_64).dll Path:\n\033[34m[>]\033[0m ";
-    std::getline(std::cin, usr_lib_path);
+    std::cout << "[*] Enter mmmojo(_64).dll Path:\n[>] ";
+    //std::getline(std::cin, usr_lib_path);
+    usr_lib_path = "D:\\Program Files (x86)\\Tencent\\WeChat\\[3.9.7.29]\\"; // mmmojo_64.dll
 
-    std::cout << "\033[34m[*]\033[0m Enter Pic Path to OCR (Default \'.\\test.png\'):\n\033[34m[>]\033[0m ";
-    std::getline(std::cin, pic_path);
+    std::cout << "[*] Enter Pic Path to OCR (Default \'.\\test.png\'):\n[>] ";
+    //std::getline(std::cin, pic_path);
+    pic_path = "E:\\kSource\\pythonx\\decode\\wechatocr\\QQImpl\\test.jpg";
     if (pic_path.empty()) pic_path = ".\\test.png";
 
     if (check_path_info(ocr_path) != 2)
     {
-        std::cout << "\033[31m[!] OCR Exe Path is not exist!\033[0m\n";
+        std::cout << "[!] OCR Exe Path is not exist!\n";
         return 0;
     }
 
     if (check_path_info(usr_lib_path) != 1)
     {
-        std::cout << "\033[31m[!] OCR Usr Lib Path is not exist!\033[0m\n";
+        std::cout << "[!] OCR Usr Lib Path is not exist!\n";
         return 0;
     }
 
@@ -64,7 +70,7 @@ int main()
     //设置WeChatOCR.exe所在目录
     if (!qqocr::SetOcrExePath(ocr_path.c_str()))
     {
-        std::cout << "\033[31m[!] SetOcrExePath Err: " << qqocr::GetLastErrStr() << "\033[0m\n";
+        std::cout << "[!] SetOcrExePath Err: " << qqocr::GetLastErrStr() << "\n";
         return 1;
     }
     std::cout << "[+] SetOcrExePath OK!\n";
@@ -72,7 +78,7 @@ int main()
     //设置mmmojo_64.dll所在目录
     if (!qqocr::SetOcrUsrLibPath(usr_lib_path.c_str()))
     {
-        std::cout << "\033[31m[!] SetOcrUsrLibPath Err: " << qqocr::GetLastErrStr() << "\033[0m\n";
+        std::cout << "[!] SetOcrUsrLibPath Err: " << qqocr::GetLastErrStr() << "\n";
         return 1;
     }
     std::cout << "[+] SetOcrUsrLibPath OK!\n";
@@ -83,14 +89,14 @@ int main()
 
 
     //发送OCR任务
-    std::cout << "\033[34m[>]\033[0m Press any key to Send OCR Task:";
+    std::cout << "[>] Press any key to Send OCR Task:";
     getchar();
     qqocr::DoOCRTask(pic_path.c_str());
 
     //等待OnOcrReadPush返回
     WaitForSingleObject(hEvent, INFINITE);
         
-    std::cout << "\033[34m[>]\033[0m Press any key to Shutdown OCR Env:";
+    std::cout << "[>] Press any key to Shutdown OCR Env:";
     getchar();
     qqocr::UnInitManager();
 
@@ -98,6 +104,60 @@ int main()
     CloseHandle(hEvent);
     return 0;
 }
+
+/* Convert arguments to UTF-8 */
+#ifdef _MSC_VER
+int
+wmain(int argc, wchar_t* argv[])
+{
+    /* Select UTF-8 locale */
+    setlocale(LC_ALL, ".utf8");
+    SetConsoleCP(CP_UTF8);
+    SetConsoleOutputCP(CP_UTF8);
+
+    /* Allocate memory for multi-byte argv table */
+    char** mbargv;
+    mbargv = (char**)malloc(argc * sizeof(char*));
+    if (!mbargv) {
+        puts("Out of memory");
+        exit(3);
+    }
+
+    /* Convert each argument in argv to UTF-8 */
+    for (int i = 0; i < argc; i++) {
+        size_t n;
+        wcstombs_s(&n, NULL, 0, argv[i], 0);
+
+        /* Allocate room for ith argument */
+        mbargv[i] = (char*)malloc(n);
+        if (!mbargv[i]) {
+            puts("Out of memory");
+            exit(3);
+        }
+
+        /* Convert ith argument to utf-8 */
+        wcstombs_s(NULL, mbargv[i], n, argv[i], n);
+    }
+
+    /* Pass UTF-8 converted arguments to the main program */
+    int errorcode = _main(argc, mbargv);
+
+    /* Release UTF-8 arguments */
+    for (int i = 0; i < argc; i++) {
+        free(mbargv[i]);
+    }
+
+    /* Release the argument table */
+    free(mbargv);
+    return errorcode;
+}
+#else
+int
+main(int argc, char* argv[])
+{
+    return _main(argc, argv);
+}
+#endif
 
 void OnOcrReadPush(const char* pic_path, void* ocr_response_serialize, int serialize_size)
 {
