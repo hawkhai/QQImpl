@@ -90,13 +90,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\QQOcr\QQOcr;$(ProjectDir)..\..\..\QQOcr\depends\ocr_protobuf;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\QQOcr\depends\ocr_protobuf;$(ProjectDir)..\..\..\QQOcr\QQOcr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalOptions>/we4715 /we4013 /we4431 /we4133 /we4716 /we4457 /we4456 /we4172 /we4700 /we4477 /we4047 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(ProjectDir)..\..\..\QQOcr\depends\ocr_lib\libprotobuf_32_MTd.lib;$(ProjectDir)..\..\..\QQOcr\Bin\Win32\Debug\QQOcr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(ProjectDir)..\..\..\QQOcr\Bin\Win32\Debug\QQOcr.lib;$(ProjectDir)..\..\..\QQOcr\depends\ocr_lib\libprotobufd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -107,15 +108,16 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\QQOcr\QQOcr;$(ProjectDir)..\..\..\QQOcr\depends\ocr_protobuf;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\QQOcr\depends\ocr_protobuf;$(ProjectDir)..\..\..\QQOcr\QQOcr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/we4715 /we4013 /we4431 /we4133 /we4716 /we4457 /we4456 /we4172 /we4700 /we4477 /we4047 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(ProjectDir)..\..\..\QQOcr\depends\ocr_lib\libprotobuf_32_MT.lib;$(ProjectDir)..\..\..\QQOcr\Bin\Win32\Release\QQOcr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(ProjectDir)..\..\..\QQOcr\Bin\Win32\Release\QQOcr.lib;$(ProjectDir)..\..\..\QQOcr\depends\ocr_lib\libprotobuf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -124,13 +126,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\QQOcr\QQOcr;$(ProjectDir)..\..\..\QQOcr\depends\ocr_protobuf;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>..\..\..\..\..\3rdparty\protobuf-3.11.2\win64\include;$(ProjectDir)..\..\..\QQOcr\depends\ocr_protobuf;$(ProjectDir)..\..\..\QQOcr\QQOcr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <AdditionalOptions>/we4715 /we4013 /we4431 /we4133 /we4716 /we4457 /we4456 /we4172 /we4700 /we4477 /we4047 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(ProjectDir)..\..\..\QQOcr\depends\ocr_lib\libprotobuf_64_MTd.lib;$(ProjectDir)..\..\..\QQOcr\Bin\x64\Debug\QQOcr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libprotobufd.lib;$(ProjectDir)..\..\..\QQOcr\Bin\x64\Debug\QQOcr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\..\..\3rdparty\protobuf-3.11.2\win64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -141,15 +145,16 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\QQOcr\QQOcr;$(ProjectDir)..\..\..\QQOcr\depends\ocr_protobuf;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\QQOcr\depends\ocr_protobuf;$(ProjectDir)..\..\..\QQOcr\QQOcr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/we4715 /we4013 /we4431 /we4133 /we4716 /we4457 /we4456 /we4172 /we4700 /we4477 /we4047 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(ProjectDir)..\..\..\QQOcr\depends\ocr_lib\libprotobuf_64_MT.lib;$(ProjectDir)..\..\..\QQOcr\Bin\x64\Release\QQOcr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(ProjectDir)..\..\..\QQOcr\Bin\x64\Release\QQOcr.lib;$(ProjectDir)..\..\..\QQOcr\depends\ocr_lib\libprotobuf;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
