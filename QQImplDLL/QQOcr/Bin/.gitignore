@@ -1,0 +1,8 @@
+/.vs
+/Win32
+/x64
+*.dll
+*.exe
+*.zip
+*.nas
+*.xnet
