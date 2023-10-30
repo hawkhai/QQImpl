@@ -2,6 +2,7 @@
 
 #include "QQOcr.h"
 #include "ocr_protobuf.pb.h"
+#include "json.hpp"
 
 using namespace qqimpl;
 
@@ -44,21 +45,21 @@ main(int argc, char* argv[])
 
     std::string ocr_path, usr_lib_path, pic_path;
 
-    std::cout << "[*] Enter WeChatOCR.exe Path:\n[>] ";
+    //std::cout << "[*] Enter WeChatOCR.exe Path:\n[>] ";
     //std::getline(std::cin, ocr_path);
     ocr_path = "..\\..\\extracted\\WeChatOCR.exe";
     if (check_path_info(ocr_path) != 2) {
         ocr_path = "..\\..\\..\\QQOcr\\bin\\extracted\\WeChatOCR.exe";
     }
 
-    std::cout << "[*] Enter mmmojo(_64).dll Path:\n[>] ";
+    //std::cout << "[*] Enter mmmojo(_64).dll Path:\n[>] ";
     //std::getline(std::cin, usr_lib_path);
     usr_lib_path = "..\\..\\"; // mmmojo_64.dll
     if (check_path_info(usr_lib_path + "mmmojo_64.dll") != 2) {
         usr_lib_path = "..\\..\\..\\QQOcr\\bin\\"; // mmmojo_64.dll
     }
 
-    std::cout << "[*] Enter Pic Path to OCR (Default \'.\\test.jpg\'):\n[>] ";
+    //std::cout << "[*] Enter Pic Path to OCR (Default \'.\\test.jpg\'):\n[>] ";
     //std::getline(std::cin, pic_path);
     pic_path = "E:\\kSource\\pythonx\\decode\\wechatocr\\QQImpl\\test.jpg";
     if (pic_path.empty() || check_path_info(pic_path) != 2) 
@@ -86,7 +87,7 @@ main(int argc, char* argv[])
 
     //初始化OCR Manager
     qqocr::InitManager();
-    std::cout << "[+] InitOcrManager OK!\n";
+    //std::cout << "[+] InitOcrManager OK!\n";
 
     //设置WeChatOCR.exe所在目录
     if (!qqocr::SetOcrExePath(ocr_path.c_str()))
@@ -94,7 +95,7 @@ main(int argc, char* argv[])
         std::cout << "[!] SetOcrExePath Err: " << qqocr::GetLastErrStr() << "\n";
         return 1;
     }
-    std::cout << "[+] SetOcrExePath OK!\n";
+    //std::cout << "[+] SetOcrExePath OK!\n";
 
     //设置mmmojo_64.dll所在目录
     if (!qqocr::SetOcrUsrLibPath(usr_lib_path.c_str()))
@@ -102,26 +103,26 @@ main(int argc, char* argv[])
         std::cout << "[!] SetOcrUsrLibPath Err: " << qqocr::GetLastErrStr() << "\n";
         return 1;
     }
-    std::cout << "[+] SetOcrUsrLibPath OK!\n";
+    //std::cout << "[+] SetOcrUsrLibPath OK!\n";
 
     //设置接收OCR结果的回调函数
     qqocr::SetUsrReadPushCallback(OnOcrReadPush);
-    std::cout << "[+] SetOcrUsrReadPushCallback OK!\n";
+    //std::cout << "[+] SetOcrUsrReadPushCallback OK!\n";
 
 
     //发送OCR任务
-    std::cout << "[>] Press any key to Send OCR Task:";
-    getchar();
+    //std::cout << "[>] Press any key to Send OCR Task:";
+    //getchar();
     qqocr::DoOCRTask(pic_path.c_str());
 
     //等待OnOcrReadPush返回
     WaitForSingleObject(g_hEvent, INFINITE);
         
-    std::cout << "[>] Press any key to Shutdown OCR Env:";
+    //std::cout << "[>] Press any key to Shutdown OCR Env:";
     getchar();
     qqocr::UnInitManager();
 
-    std::cout << "[-] Shutdown WeChatOCR Env!\n";
+    //std::cout << "[-] Shutdown WeChatOCR Env!\n";
     CloseHandle(g_hEvent);
     return 0;
 }
@@ -258,30 +259,58 @@ void OnOcrReadPush(const char* pic_path, void* ocr_response_serialize, int seria
     ocr_protobuf::OcrResponse ocr_response;
     ocr_response.ParseFromArray(ocr_response_serialize, serialize_size);
 
+    nlohmann::json resultj;
+
     char out_buf[512] = { 0 };
     sprintf(out_buf, "[*] OnReadPush type:%d task id:%d errCode:%d\n", ocr_response.type(), ocr_response.task_id(), ocr_response.err_code());
-    std::cout << out_buf;
+    //std::cout << out_buf;
+    resultj["type"] = ocr_response.type();
+    resultj["task_id"] = ocr_response.task_id();
+    resultj["err_code"] = ocr_response.err_code();
+    resultj["pic_path"] = pic_path;
+    resultj["ocr_result"] = nlohmann::json::array();
 
     sprintf(out_buf, "[*] OnReadPush TaskId:%d -> PicPath:%s\n", ocr_response.task_id(), pic_path);
-    std::cout << out_buf;
+    //std::cout << out_buf;
     if (ocr_response.type() == 0)
     {
-        std::cout << "[*] OcrResult:\n[\n";
+        //std::cout << "[*] OcrResult:\n[\n";
         auto result = ocr_response.ocr_result();
         for (int i = 0; i < result.single_result_size(); i++)
         {
             ocr_protobuf::OcrResponse::OcrResult::SingleResult single_result = result.single_result(i);
             sprintf(out_buf, "\tRECT:[lx:%f, ly:%f, rx:%f, ry:%f]\n", single_result.lx(), single_result.ly(), single_result.rx(), single_result.ry());
-            std::cout << out_buf;
+            //std::cout << out_buf;
             std::string utf8str = single_result.single_str_utf8();
-            printf("\tUTF8STR:[");
+            //printf("\tUTF8STR:[");
             for (size_t j = 0; j < utf8str.size(); j++)
             {
-                printf("%02X ", (BYTE)utf8str[j]);
+                //printf("%02X ", (BYTE)utf8str[j]);
             }
-            std::cout << " (" << Utf8ToANSI(utf8str) << ")]\n";
+            //std::cout << " (" << Utf8ToANSI(utf8str) << ")]\n";
+
+            nlohmann::json item;
+            item["rect"] = { //
+                (int)round(single_result.lx()), //
+                (int)round(single_result.ly()), //
+                (int)round(single_result.rx()), //
+                (int)round(single_result.ry()) };
+            item["utf8str"] = utf8str;
+            item["rate"] = single_result.single_rate();
+            resultj["ocr_result"].push_back(item);
         }
-        puts("]");
+        //puts("]");
+
+        std::cout << Utf8ToANSI(resultj.dump(2, ' ').c_str()) << "\n";
+        if (g_hEvent != NULL) SetEvent(g_hEvent);//让main函数继续运行
     }
-    if (g_hEvent != NULL) SetEvent(g_hEvent);//让main函数继续运行
+/*
+{
+  "err_code": 0,
+  "ocr_result": [],
+  "pic_path": "",
+  "task_id": 1,
+  "type": 1
+}
+*/
 }
