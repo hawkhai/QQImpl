@@ -27,7 +27,7 @@ std::string myfullpath(std::string fpath) {
     return fullpath;
 }
 
-HANDLE hEvent = NULL;
+HANDLE g_hEvent = NULL;
 
 // https://github.com/tronkko/dirent
 /* This is your true main function */
@@ -35,8 +35,8 @@ int
 main(int argc, char* argv[])
 {
     //创建Event用于等待OCR任务返回
-    hEvent = CreateEventA(NULL, FALSE, FALSE, NULL);
-    if (hEvent == NULL)
+    g_hEvent = CreateEventA(NULL, FALSE, FALSE, NULL);
+    if (g_hEvent == NULL)
     {
         std::cout << "[!] CreateEventA Err: " << GetLastError() << "\n";
         return 1;
@@ -115,14 +115,14 @@ main(int argc, char* argv[])
     qqocr::DoOCRTask(pic_path.c_str());
 
     //等待OnOcrReadPush返回
-    WaitForSingleObject(hEvent, INFINITE);
+    WaitForSingleObject(g_hEvent, INFINITE);
         
     std::cout << "[>] Press any key to Shutdown OCR Env:";
     getchar();
     qqocr::UnInitManager();
 
     std::cout << "[-] Shutdown WeChatOCR Env!\n";
-    CloseHandle(hEvent);
+    CloseHandle(g_hEvent);
     return 0;
 }
 
@@ -282,7 +282,6 @@ void OnOcrReadPush(const char* pic_path, void* ocr_response_serialize, int seria
             std::cout << " (" << Utf8ToANSI(utf8str) << ")]\n";
         }
         puts("]");
-
-        if (hEvent != NULL) SetEvent(hEvent);//让main函数继续运行
     }
+    if (g_hEvent != NULL) SetEvent(g_hEvent);//让main函数继续运行
 }
