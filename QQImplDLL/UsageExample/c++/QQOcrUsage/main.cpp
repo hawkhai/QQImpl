@@ -8,6 +8,14 @@ using namespace qqimpl;
 
 void OnOcrReadPush(const char* pic_path, void* ocr_response_serialize, int serialize_size);
 
+std::wstring Utf8ToUnicode(std::string utf8_str);
+std::wstring ANSIToUnicode(std::string ansi_str);
+std::string UnicodeToANSI(std::wstring utf16_str);
+std::string UnicodeToUtf8(std::wstring utf16_str);
+std::string Utf8ToANSI(std::string utf8_str);
+std::string ANSIToUtf8(std::string ansi_str);
+
+
 //返回0->不存在 1->是文件夹 2->是文件
 int check_path_info(std::string path)
 {
@@ -26,6 +34,14 @@ std::string myfullpath(std::string fpath) {
     char fullpath[_MAX_PATH];
     _fullpath(fullpath, fpath.c_str(), _MAX_PATH);
     return fullpath;
+}
+
+std::string getCurrentDir() {
+    char fpath[MAX_PATH];
+    DWORD dwRet = GetModuleFileNameA(NULL, fpath, MAX_PATH);
+    std::string fdir = fpath;
+    int index = fdir.rfind('\\');
+    return fdir.substr(0, index + 1);
 }
 
 HANDLE g_hEvent = NULL;
@@ -47,16 +63,16 @@ main(int argc, char* argv[])
 
     //std::cout << "[*] Enter WeChatOCR.exe Path:\n[>] ";
     //std::getline(std::cin, ocr_path);
-    ocr_path = "..\\..\\extracted\\WeChatOCR.exe";
+    ocr_path = getCurrentDir() + "..\\..\\extracted\\WeChatOCR.exe";
     if (check_path_info(ocr_path) != 2) {
-        ocr_path = "..\\..\\..\\QQOcr\\bin\\extracted\\WeChatOCR.exe";
+        ocr_path = getCurrentDir() + "..\\..\\..\\QQOcr\\bin\\extracted\\WeChatOCR.exe";
     }
 
     //std::cout << "[*] Enter mmmojo(_64).dll Path:\n[>] ";
     //std::getline(std::cin, usr_lib_path);
-    usr_lib_path = "..\\..\\"; // mmmojo_64.dll
+    usr_lib_path = getCurrentDir() + "..\\..\\"; // mmmojo_64.dll
     if (check_path_info(usr_lib_path + "mmmojo_64.dll") != 2) {
-        usr_lib_path = "..\\..\\..\\QQOcr\\bin\\"; // mmmojo_64.dll
+        usr_lib_path = getCurrentDir() + "..\\..\\..\\QQOcr\\bin\\"; // mmmojo_64.dll
     }
 
     //std::cout << "[*] Enter Pic Path to OCR (Default \'.\\test.jpg\'):\n[>] ";
@@ -68,6 +84,14 @@ main(int argc, char* argv[])
         pic_path = "..\\..\\test.jpg";
     if (pic_path.empty() || check_path_info(pic_path) != 2) 
         pic_path = "..\\..\\..\\QQOcr\\bin\\test.jpg";
+
+    bool cmdx = false;
+    for (int i = 1; i < argc; i++) {
+        if (check_path_info(argv[i]) == 2) {
+            pic_path = ANSIToUtf8(argv[i]);
+            cmdx = true;
+        }
+    }
 
     if (check_path_info(ocr_path) != 2)
     {
@@ -119,7 +143,10 @@ main(int argc, char* argv[])
     WaitForSingleObject(g_hEvent, INFINITE);
         
     //std::cout << "[>] Press any key to Shutdown OCR Env:";
-    getchar();
+    if (!cmdx) {
+        std::cout << "Press any key to Shutdown...";
+        getchar();
+    }
     qqocr::UnInitManager();
 
     //std::cout << "[-] Shutdown WeChatOCR Env!\n";
