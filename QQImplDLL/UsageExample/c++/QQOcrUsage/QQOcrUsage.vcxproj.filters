@@ -21,5 +21,13 @@
     <ClCompile Include="..\..\..\QQOcr\depends\ocr_protobuf\ocr_protobuf.pb.cc">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\cppx\cppx\include\funclib.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\..\..\cppx\cppx\include\funclib.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

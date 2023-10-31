@@ -3,6 +3,7 @@
 #include "QQOcr.h"
 #include "ocr_protobuf.pb.h"
 #include "json.hpp"
+#include "funclib.h"
 
 using namespace qqimpl;
 
@@ -45,6 +46,32 @@ std::string getCurrentDir() {
 }
 
 HANDLE g_hEvent = NULL;
+nlohmann::json g_resultj;
+
+void mytable(std::string& imgfile, std::string& jsonfile, std::string& ocrfile) {
+    //auto flag = qqocr::DoOCRTask(pic_path.c_str());
+    //assert(flag);
+    //WaitForSingleObject(g_hEvent, INFINITE);
+
+
+}
+
+void mytable() {
+
+    std::string indexfile = "E:\\kSource\\blog\\kvision\\ksample\\mytable\\index.json";
+    long length = 0;
+    char* fdata = readfile(indexfile.c_str(), length);
+    auto index = nlohmann::json::parse(fdata);
+    freefiledata(fdata);
+
+    for (int i = 0; i < index.size(); i++) {
+        nlohmann::json item = index[i];
+        std::string imgfile = item["imgfile"];
+        std::string jsonfile = item["jsonfile"];
+        std::string ocrfile = item["ocrfile"];
+        mytable(imgfile, jsonfile, ocrfile);
+    }
+}
 
 // https://github.com/tronkko/dirent
 /* This is your true main function */
@@ -133,11 +160,15 @@ main(int argc, char* argv[])
     qqocr::SetUsrReadPushCallback(OnOcrReadPush);
     //std::cout << "[+] SetOcrUsrReadPushCallback OK!\n";
 
+    if (true) {
+        mytable();
+    }
 
     //发送OCR任务
     //std::cout << "[>] Press any key to Send OCR Task:";
     //getchar();
-    qqocr::DoOCRTask(pic_path.c_str());
+    auto flag = qqocr::DoOCRTask(pic_path.c_str());
+    assert(flag);
 
     //等待OnOcrReadPush返回
     WaitForSingleObject(g_hEvent, INFINITE);
@@ -329,6 +360,7 @@ void OnOcrReadPush(const char* pic_path, void* ocr_response_serialize, int seria
         //puts("]");
 
         std::cout << Utf8ToANSI(resultj.dump(2, ' ').c_str()) << "\n";
+        g_resultj = resultj;
         if (g_hEvent != NULL) SetEvent(g_hEvent);//让main函数继续运行
     }
 /*

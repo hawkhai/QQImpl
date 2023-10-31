@@ -90,7 +90,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\..\..\3rdparty\protobuf-3.11.2\win32\include;$(ProjectDir)..\..\..\QQOcr\depends\ocr_protobuf;$(ProjectDir)..\..\..\QQOcr\QQOcr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\..\..\..\cppx\cppx\include;..\..\..\..\..\3rdparty\protobuf-3.11.2\win32\include;$(ProjectDir)..\..\..\QQOcr\depends\ocr_protobuf;$(ProjectDir)..\..\..\QQOcr\QQOcr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalOptions>/we4715 /we4013 /we4431 /we4133 /we4716 /we4457 /we4456 /we4172 /we4700 /we4477 /we4047 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
@@ -161,8 +161,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\..\..\cppx\cppx\include\funclib.cpp" />
     <ClCompile Include="..\..\..\QQOcr\depends\ocr_protobuf\ocr_protobuf.pb.cc" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\..\..\cppx\cppx\include\funclib.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
