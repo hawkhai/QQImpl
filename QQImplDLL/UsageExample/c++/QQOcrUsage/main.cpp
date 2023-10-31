@@ -4,6 +4,7 @@
 #include "ocr_protobuf.pb.h"
 #include "json.hpp"
 #include "funclib.h"
+#include "opencv2\opencv.hpp"
 
 using namespace qqimpl;
 
@@ -47,13 +48,125 @@ std::string getCurrentDir() {
 
 HANDLE g_hEvent = NULL;
 nlohmann::json g_resultj;
+int g_counter = 0;
+
+std::string mytext(cv::Mat img) {
+
+    //img = img.clone();
+    int width = img.cols;
+    int height = img.rows;
+    char pic_path[1024];
+
+    sprintf(pic_path, "D:\\mytext\\%di.png", g_counter++);
+    //bool temp = cv::imwrite(pic_path, img);
+    //assert(temp);
+
+    // int top, int bottom, int left, int right,
+    cv::Scalar value = { 255, 255, 255 };
+    cv::copyMakeBorder(img, img, //
+        2, 2, 2, 2, // 如果本来就存在边界内容，就是真实的延拓。
+        cv::BORDER_CONSTANT, value);
+
+    assert(width + 4 == img.cols);
+    assert(height + 4 == img.rows);
+
+    sprintf(pic_path, "D:\\mytext\\%d.png", g_counter++);
+    g_counter = 0;
+    auto temp = cv::imwrite(pic_path, img);
+    assert(temp);
+
+    while (true) {
+        auto flag = qqocr::DoOCRTask(pic_path);
+        assert(flag);
+        //WaitForSingleObject(g_hEvent, INFINITE);
+        auto code = WaitForSingleObject(g_hEvent, 1000 * 10);
+
+        if (code == WAIT_OBJECT_0) {
+            break;
+        }
+        if (code == WAIT_TIMEOUT) {
+            printf("WAIT_TIMEOUT %s\n", pic_path);
+        }
+    }
+
+    std::string result;
+    if (!g_resultj.empty() && g_resultj["err_code"] == 0 && g_resultj["type"] == 0) {
+        auto ocr_result = g_resultj["ocr_result"];
+        for (int i = 0; i < ocr_result.size(); i++) {
+            std::string utf8str = ocr_result[i]["utf8str"];
+            if (!result.empty()) {
+                result.append("\r\n");
+            }
+            result.append(utf8str);
+        }
+    }
+
+    g_resultj.clear();
+    if (result.empty()) {
+        return " ";
+    }
+    return result;
+}
 
 void mytable(std::string& imgfile, std::string& jsonfile, std::string& ocrfile) {
-    //auto flag = qqocr::DoOCRTask(pic_path.c_str());
-    //assert(flag);
-    //WaitForSingleObject(g_hEvent, INFINITE);
 
+    auto img = cv::imread(imgfile.c_str(), cv::IMREAD_COLOR);
+    if (img.empty()) {
+        return;
+    }
 
+    long length = 0;
+    char* fdata = readfile(jsonfile.c_str(), length);
+    auto json = nlohmann::json::parse(fdata);
+    freefiledata(fdata);
+
+    // margintop, marginright, marginbottom, marginleft
+    auto margin = json["config"]["margin"];
+    int margintop = margin[0];
+    int marginright = margin[1];
+    int marginbottom = margin[2];
+    int marginleft = margin[3];
+
+    // int top, int bottom, int left, int right,
+    cv::Scalar value = { 255, 255, 255 };
+    cv::copyMakeBorder(img, img, //
+        margintop, marginbottom, marginleft, marginright, //
+        cv::BORDER_CONSTANT, value);
+
+    auto imgsize = json["imgsize"];
+    int width = imgsize[0];
+    int height = imgsize[1];
+    assert(width == img.cols);
+    assert(height == img.rows);
+
+    auto& tables_cells = json["tables_cells"];
+    for (auto& table : tables_cells) {
+        for (auto& cell : table) {
+            auto bbox = cell["bbox"];
+            float xmin = bbox[0];
+            float ymin = bbox[1];
+            float xmax = bbox[2];
+            float ymax = bbox[3];
+            cell["bbox2"] = { int(round(xmin)), int(round(ymin)), int(round(xmax)), int(round(ymax)) };
+
+            cv::Mat imgi(img, cv::Range(ymin, ymax + 1), cv::Range(xmin, xmax + 1));
+            cell["cell text"] = mytext(imgi); // baidu_text(engineCache, img.crop((xmin, ymin, xmax, ymax)), debug = debug)
+        }
+    }
+    auto& objects = json["config"]["objects"];
+    for (auto& cell : objects) {
+        auto bbox = cell["bbox"];
+        float xmin = bbox[0];
+        float ymin = bbox[1];
+        float xmax = bbox[2];
+        float ymax = bbox[3];
+        cell["bbox2"] = { int(round(xmin)), int(round(ymin)), int(round(xmax)), int(round(ymax)) };
+
+        cv::Mat imgi(img, cv::Range(ymin, ymax + 1), cv::Range(xmin, xmax + 1));
+        cell["cell text"] = mytext(imgi); // baidu_text(engineCache, img.crop((xmin, ymin, xmax, ymax)), debug = debug)
+
+    }
+    writefile(ocrfile.c_str(), json.dump(2, ' ').c_str());
 }
 
 void mytable() {
@@ -362,6 +475,9 @@ void OnOcrReadPush(const char* pic_path, void* ocr_response_serialize, int seria
         std::cout << Utf8ToANSI(resultj.dump(2, ' ').c_str()) << "\n";
         g_resultj = resultj;
         if (g_hEvent != NULL) SetEvent(g_hEvent);//让main函数继续运行
+    }
+    else {
+        std::cout << "*" << Utf8ToANSI(resultj.dump(2, ' ').c_str()) << "\n";
     }
 /*
 {
