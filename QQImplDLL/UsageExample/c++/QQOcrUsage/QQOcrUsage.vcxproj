@@ -97,7 +97,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libprotobufd.lib;IlmImfd.lib;libjpeg-turbod.lib;libopenjp2d.lib;libpngd.lib;libtiffd.lib;libwebpd.lib;opencv_core460d.lib;opencv_features2d460d.lib;opencv_highgui460d.lib;opencv_imgcodecs460d.lib;opencv_imgproc460d.lib;opencv_photo460d.lib;opencv_video460d.lib;zlibd.lib;$(ProjectDir)..\..\..\QQOcr\Bin\Win32\Debug\QQOcr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>IlmImfd.lib;libjpeg-turbod.lib;libopenjp2d.lib;libpngd.lib;libprotobufd.lib;libtiffd.lib;libwebpd.lib;opencv_core460d.lib;opencv_features2d460d.lib;opencv_highgui460d.lib;opencv_imgcodecs460d.lib;opencv_imgproc460d.lib;opencv_photo460d.lib;opencv_video460d.lib;zlibd.lib;$(ProjectDir)..\..\..\QQOcr\Bin\Win32\Debug\QQOcr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\..\..\..\..\..\note\infai\fastocr\RapidOcrNcnn\opencv-static\opencv-4.6.0-windows-vs2019-md-debug\windows-x86\x86\vc16\staticlib;..\..\..\..\..\3rdparty\protobuf-3.11.2\win32\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
