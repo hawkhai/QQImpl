@@ -50,7 +50,7 @@ HANDLE g_hEvent = NULL;
 nlohmann::json g_resultj;
 int g_counter = 0;
 
-std::string mytext(cv::Mat img) {
+std::string mytext(cv::Mat img, cv::Rect& rect) {
 
     //img = img.clone();
     int width = img.cols;
@@ -61,10 +61,12 @@ std::string mytext(cv::Mat img) {
     //bool temp = cv::imwrite(pic_path, img);
     //assert(temp);
 
+    const int border = 2;
+
     // int top, int bottom, int left, int right,
     cv::Scalar value = { 255, 255, 255 };
     cv::copyMakeBorder(img, img, //
-        2, 2, 2, 2, // 如果本来就存在边界内容，就是真实的延拓。
+        border, border, border, border, // 如果本来就存在边界内容，就是真实的延拓。
         cv::BORDER_CONSTANT, value);
 
     assert(width + 4 == img.cols);
@@ -98,6 +100,19 @@ std::string mytext(cv::Mat img) {
                 result.append("\r\n");
             }
             result.append(utf8str);
+
+            int lx = ocr_result[i]["rect"][0];
+            int ly = ocr_result[i]["rect"][1];
+            int rx = ocr_result[i]["rect"][2];
+            int ry = ocr_result[i]["rect"][3];
+
+            cv::Rect irect(lx - border, ly - border, rx - lx, ry - ly);
+            if (i == 0) {
+                rect = irect;
+            }
+            else {
+                rect = rect | irect;
+            }
         }
     }
 
@@ -143,28 +158,19 @@ void mytable(std::string& imgfile, std::string& jsonfile, std::string& ocrfile) 
     for (auto& table : tables_cells) {
         for (auto& cell : table) {
             auto bbox = cell["bbox"];
+
             float xmin = bbox[0];
             float ymin = bbox[1];
             float xmax = bbox[2];
             float ymax = bbox[3];
+            
             cell["bbox2"] = { int(round(xmin)), int(round(ymin)), int(round(xmax)), int(round(ymax)) };
 
             cv::Mat imgi(img, cv::Range(ymin, ymax + 1), cv::Range(xmin, xmax + 1));
-            cell["cell text"] = mytext(imgi); // baidu_text(engineCache, img.crop((xmin, ymin, xmax, ymax)), debug = debug)
+            cv::Rect rect;
+            cell["cell text"] = mytext(imgi, rect); // baidu_text(engineCache, img.crop((xmin, ymin, xmax, ymax)), debug = debug)
+            cell["text rect"] = { rect.tl().x, rect.tl().y, rect.br().x, rect.br().y };
         }
-    }
-    auto& objects = json["config"]["objects"];
-    for (auto& cell : objects) {
-        auto bbox = cell["bbox"];
-        float xmin = bbox[0];
-        float ymin = bbox[1];
-        float xmax = bbox[2];
-        float ymax = bbox[3];
-        cell["bbox2"] = { int(round(xmin)), int(round(ymin)), int(round(xmax)), int(round(ymax)) };
-
-        cv::Mat imgi(img, cv::Range(ymin, ymax + 1), cv::Range(xmin, xmax + 1));
-        cell["cell text"] = mytext(imgi); // baidu_text(engineCache, img.crop((xmin, ymin, xmax, ymax)), debug = debug)
-
     }
     writefile(ocrfile.c_str(), json.dump(2, ' ').c_str());
 }
