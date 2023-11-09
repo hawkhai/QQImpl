@@ -161,12 +161,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\..\..\cppx\cppx\include\funclib.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\..\cppx\cppx\include\cppx\funclib.cpp" />
     <ClCompile Include="..\..\..\QQOcr\depends\ocr_protobuf\ocr_protobuf.pb.cc" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\..\..\cppx\cppx\include\funclib.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\cppx\cppx\include\cppx\funclib.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
