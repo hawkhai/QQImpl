@@ -50,4 +50,9 @@
       <Filter>源文件\OCR</Filter>
     </MASM>
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\..\..\..\..\note\build\infai.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
 </Project>
