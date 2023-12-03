@@ -3,7 +3,7 @@
 #include "QQOcr.h"
 #include "ocr_protobuf.pb.h"
 #include "json.hpp"
-#include "funclib.h"
+#include "cppx\funclib.h"
 #include "opencv2\opencv.hpp"
 
 using namespace qqimpl;

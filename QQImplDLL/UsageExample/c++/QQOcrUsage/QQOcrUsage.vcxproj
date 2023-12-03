@@ -97,8 +97,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>IlmImfd.lib;libjpeg-turbod.lib;libopenjp2d.lib;libpngd.lib;libprotobufd.lib;libtiffd.lib;libwebpd.lib;opencv_core460d.lib;opencv_features2d460d.lib;opencv_highgui460d.lib;opencv_imgcodecs460d.lib;opencv_imgproc460d.lib;opencv_photo460d.lib;opencv_video460d.lib;zlibd.lib;$(ProjectDir)..\..\..\QQOcr\Bin\Win32\Debug\QQOcr.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\..\..\..\..\..\note\infai\fastocr\RapidOcrNcnn\opencv-static\opencv-4.6.0-windows-vs2019-md-debug\windows-x86\x86\vc16\staticlib;..\..\..\..\..\3rdparty\protobuf-3.11.2\win32\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>IlmImfd.lib;libjpeg-turbod.lib;libopenjp2d.lib;libpngd.lib;libprotobufd.lib;libtiffd.lib;libwebpd.lib;opencv_core460d.lib;opencv_features2d460d.lib;opencv_highgui460d.lib;opencv_imgcodecs460d.lib;opencv_imgproc460d.lib;opencv_photo460d.lib;opencv_video460d.lib;QQOcr.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\..\..\..\..\cppx\cppx\libs\14.29.30037_spectre\x86;..\..\..\..\..\..\..\note\infai\fastocr\RapidOcrNcnn\opencv-static\opencv-4.6.0-windows-vs2019-md-debug\windows-x86\x86\vc16\staticlib;..\..\..\..\..\3rdparty\protobuf-3.11.2\win32\lib;$(SolutionDir)Bin\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -109,7 +109,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;NOMINMAX;_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\..\..\3rdparty\protobuf-3.11.2\win32\include;$(ProjectDir)..\..\..\QQOcr\depends\ocr_protobuf;$(ProjectDir)..\..\..\QQOcr\QQOcr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\..\..\..\cppx\cppx\include;..\..\..\..\..\..\..\note\infai\fastocr\RapidOcrNcnn\opencv-static\windows-x86\include;..\..\..\..\..\3rdparty\protobuf-3.11.2\win32\include;$(ProjectDir)..\..\..\QQOcr\depends\ocr_protobuf;$(ProjectDir)..\..\..\QQOcr\QQOcr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalOptions>/we4715 /we4013 /we4431 /we4133 /we4716 /we4457 /we4456 /we4172 /we4700 /we4477 /we4047 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
@@ -118,8 +118,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libprotobuf.lib;$(ProjectDir)..\..\..\QQOcr\Bin\Win32\Release\QQOcr.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\..\..\..\3rdparty\protobuf-3.11.2\win32\lib-mt;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>IlmImf.lib;libjpeg-turbo.lib;libopenjp2.lib;libpng.lib;libprotobuf.lib;libtiff.lib;libwebp.lib;opencv_core480.lib;opencv_features2d480.lib;opencv_flann480.lib;opencv_highgui480.lib;opencv_imgcodecs480.lib;opencv_imgproc480.lib;opencv_photo480.lib;opencv_video480.lib;QQOcr.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\..\..\..\..\cppx\cppx\libs\14.29.30037_spectre\x86;..\..\..\..\..\..\..\note\infai\fastocr\RapidOcrNcnn\opencv-static\windows-x86\x86\vc16\staticlib;..\..\..\..\..\3rdparty\protobuf-3.11.2\win32\lib-mt;$(SolutionDir)Bin\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -128,15 +128,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;NOMINMAX;_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\..\..\3rdparty\protobuf-3.11.2\win64\include;$(ProjectDir)..\..\..\QQOcr\depends\ocr_protobuf;$(ProjectDir)..\..\..\QQOcr\QQOcr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>..\..\..\..\..\..\..\cppx\cppx\include;..\..\..\..\..\..\..\note\infai\fastocr\RapidOcrNcnn\opencv-static\opencv-4.6.0-windows-vs2019-md-debug\windows-x64\include;..\..\..\..\..\3rdparty\protobuf-3.11.2\win64\include;$(ProjectDir)..\..\..\QQOcr\depends\ocr_protobuf;$(ProjectDir)..\..\..\QQOcr\QQOcr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalOptions>/we4715 /we4013 /we4431 /we4133 /we4716 /we4457 /we4456 /we4172 /we4700 /we4477 /we4047 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libprotobufd.lib;$(ProjectDir)..\..\..\QQOcr\Bin\x64\Debug\QQOcr64.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\..\..\..\3rdparty\protobuf-3.11.2\win64\lib-mt;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>IlmImfd.lib;libjpeg-turbod.lib;libopenjp2d.lib;libpngd.lib;libprotobufd.lib;libtiffd.lib;libwebpd.lib;opencv_core460d.lib;opencv_features2d460d.lib;opencv_highgui460d.lib;opencv_imgcodecs460d.lib;opencv_imgproc460d.lib;opencv_photo460d.lib;opencv_video460d.lib;QQOcr64.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\..\..\..\..\cppx\cppx\libs\14.29.30037_spectre\x64;..\..\..\..\..\..\..\note\infai\fastocr\RapidOcrNcnn\opencv-static\opencv-4.6.0-windows-vs2019-md-debug\windows-x64\x64\vc16\staticlib;..\..\..\..\..\3rdparty\protobuf-3.11.2\win64\lib;$(SolutionDir)Bin\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -147,7 +147,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;NOMINMAX;_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\..\..\3rdparty\protobuf-3.11.2\win64\include;$(ProjectDir)..\..\..\QQOcr\depends\ocr_protobuf;$(ProjectDir)..\..\..\QQOcr\QQOcr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\..\..\..\cppx\cppx\include;..\..\..\..\..\..\..\note\infai\fastocr\RapidOcrNcnn\opencv-static\windows-x64\include;..\..\..\..\..\3rdparty\protobuf-3.11.2\win64\include;$(ProjectDir)..\..\..\QQOcr\depends\ocr_protobuf;$(ProjectDir)..\..\..\QQOcr\QQOcr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalOptions>/we4715 /we4013 /we4431 /we4133 /we4716 /we4457 /we4456 /we4172 /we4700 /we4477 /we4047 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
@@ -156,8 +156,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libprotobuf.lib;$(ProjectDir)..\..\..\QQOcr\Bin\x64\Release\QQOcr64.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\..\..\..\3rdparty\protobuf-3.11.2\win64\lib-mt;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>IlmImf.lib;libjpeg-turbo.lib;libopenjp2.lib;libpng.lib;libprotobuf.lib;libtiff.lib;libwebp.lib;opencv_core480.lib;opencv_features2d480.lib;opencv_flann480.lib;opencv_highgui480.lib;opencv_imgcodecs480.lib;opencv_imgproc480.lib;opencv_photo480.lib;opencv_video480.lib;QQOcr64.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\..\..\..\..\cppx\cppx\libs\14.29.30037_spectre\x64;..\..\..\..\..\..\..\note\infai\fastocr\RapidOcrNcnn\opencv-static\windows-x64\x64\vc16\staticlib;..\..\..\..\..\3rdparty\protobuf-3.11.2\win64\lib-mt;$(SolutionDir)Bin\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
