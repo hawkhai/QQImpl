@@ -51,7 +51,7 @@
     </MASM>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\..\..\..\..\..\note\build\infai.rc">
+    <ResourceCompile Include="..\..\..\..\..\..\note\build\xai.rc">
       <Filter>资源文件</Filter>
     </ResourceCompile>
   </ItemGroup>
