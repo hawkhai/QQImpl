@@ -1,4 +1,4 @@
-<file_component checkvalue="FF47D6AC22EA9AA1F4042C08D46DE5DA" signature="MGUCMQDEsLDPVS3SC/ympCd6gk76mfxqkSPP8tnfOYhJ1rTeDjHbWCAeydYbKzhvodNNcyECMAop2f+6L3yXXYEu91sWkgvA+Wxb18snaZ0tqyvEPzr0PFBDVVf5vSIqV8sQ4lmOIQ==">
+<file_component checkvalue="5B6434799499C473C7A1D1DFBA2CA694" signature="MGUCMQCAiu2pZkVz3MvxsvpotgNW2RRQ5xz2vYD6t6EOZMVoTloyrkP8ikFKZit3YVrT4OQCMEJrne6UvyC9zQym8KYs0jiveIbK+p0c7XiGWAmOJHcVUeoBHf0whkXgaWXrD455Eg==">
 	<filters>
 		<filter appClientId="WeChatWin" appClientVerMin="0x63080011" sdkMin="210501" runtimeAbis="x64|x86" deviceAbis="x64" /> 
 	</filters>
@@ -48,12 +48,12 @@
 	<file md5="7db24201efea565d930b7ec3306f4308" length="571312">msvcp140.dll</file>
 	<file md5="9c1447bc98b6633b3e6964c5ba68483a" length="25520">msvcp140_1.dll</file>
 	<file md5="ca46540f86e9abe819ebaaf8cde16681" length="21392">msvcp140_codecvt_ids.dll</file>
-	<file md5="89638e3cc5ee6db0c49c1df80adb4d68" length="893384">tinyxml.dll</file>
-	<file md5="eee6800b67e4ce6b023081d9dba3bf63" length="550344">TxBugReport.exe</file>
+	<file md5="1d126a8c023fe1b6ee19bcf21557461d" length="893032">tinyxml.dll</file>
+	<file md5="1693ec6b9172f769440a61f39dc4ec23" length="549992">TxBugReport.exe</file>
 	<file md5="b0397bb83c9d579224e464eebf40a090" length="1118664">ucrtbase.dll</file>
 	<file md5="f12681a472b9dd04a812e16096514974" length="98736">vcruntime140.dll</file>
 	<file md5="75e78e4bf561031d39f86143753400ff" length="38304">vcruntime140_1.dll</file>
-	<file md5="fc162b0d1320f2a08eb6b5867076af67" length="36595080">WeChatOCR.exe</file>
+	<file md5="50a17e02b194bdea32cfe7051bd9e8dc" length="36592232">WeChatOCR.exe</file>
 	<file md5="9c16d991c79c6330e655aa29ea623492" length="3">x64.config</file>
 	<file md5="2486c31859b355539427bb2a07ebfd80" length="9578175">Model\FPOCRRecog.xnet</file>
 	<file md5="bec5b066810b8956d101f191d144a3c3" length="1604697">Model\OCRDetFP32.xnet.nas</file>
